@@ -7,6 +7,10 @@ RUN set -x && \
   docker-php-ext-install -j${NPROC} pdo_mysql && \
   apk del --no-cache --purge build-dependencies && \
   rm -rf /tmp/pear
+RUN apk --update --no-cache add autoconf g++ make && \
+  pecl install -f xdebug && \
+  docker-php-ext-enable xdebug && \
+  apk del --purge autoconf g++ make
 RUN set -x && \
   deluser www-data && \
   addgroup -g 50 -S www-data && \
